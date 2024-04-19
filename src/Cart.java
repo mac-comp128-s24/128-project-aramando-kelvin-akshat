@@ -16,4 +16,12 @@ public class Cart {
             System.out.println("Item not in cart.");
         }
     }
+
+    public void cartCost(){
+        double total = 0;
+        for (Product item : items){
+            total += item.getPrice();
+        }
+        System.out.println("Total cost: " + total);
+    }
 }
