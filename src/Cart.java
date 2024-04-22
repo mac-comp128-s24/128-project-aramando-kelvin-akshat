@@ -16,21 +16,21 @@ public class Cart {
     public void removeFromCart(Product item){
         if (!items.remove(item)){
             // If the item is not in the cart, return it to the inventory
-            InventoryManager inventoryManager = getInventoryManager();
-            if (inventoryManager != null) {
-                int quantity = inventoryManager.getProductQuantity(item.getName());
-                inventoryManager.updateProductQuantity(item.getName(), quantity + 1);
-            }
+            // InventoryManager inventoryManager = getInventoryManager();
+            // if (inventoryManager != null) {
+            //     int quantity = inventoryManager.getProductQuantity(item.getName());
+            //     inventoryManager.updateProductQuantity(item.getName(), quantity + 1);
+            // }
             System.out.println("Item not in cart.");
         }
     }
 
-    private InventoryManager getInventoryManager() {
-        if (inventoryManager == null) {
-            inventoryManager = new InventoryManager(); // Initialize it when needed
-        }
-        return inventoryManager;
-    }
+    // private InventoryManager getInventoryManager() {
+    //     if (inventoryManager == null) {
+    //         inventoryManager = new InventoryManager(); // Initialize it when needed
+    //     }
+    //     return inventoryManager;
+    // }
 
     public void cartCost(){
         double total = 0;

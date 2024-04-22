@@ -2,7 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class InventoryManager {
-    private Map<String, Integer> inventory;
+    private Map<Product, Integer> inventory;
 
     public InventoryManager() {
         this.inventory = new HashMap<>();
@@ -10,43 +10,43 @@ public class InventoryManager {
 
     /** Method to add a product to the inventory with initial quantity 
      * **/
-    public void addProduct(String productName, int initialQuantity) {
-        if (inventory.containsKey(productName)) {
-            System.out.println("Product '" + productName + "' already exists in the inventory.");
+    public void addProduct(Product product, int initialQuantity) {
+        if (inventory.containsKey(product)) {
+            System.out.println("Product '" + product.getName() + "' already exists in the inventory.");
         } else {
-            inventory.put(productName, initialQuantity);
-            System.out.println("Product '" + productName + "' added to the inventory with quantity: " + initialQuantity);
+            inventory.put(product, initialQuantity);
+            System.out.println("Product '" + product.getName() + "' added to the inventory with quantity: " + initialQuantity);
         }
     }
 
     /** Method to restock a product in the inventory **/
-    public void restockProduct(String productName, int quantity) {
-        if (inventory.containsKey(productName)) {
-            int currentQuantity = inventory.get(productName);
-            inventory.put(productName, currentQuantity + quantity);
-            System.out.println("Product '" + productName + "' restocked. New quantity: " + (currentQuantity + quantity));
+    public void restockProduct(Product product, int quantity) {
+        if (inventory.containsKey(product)) {
+            int currentQuantity = inventory.get(product);
+            inventory.put(product, currentQuantity + quantity);
+            System.out.println("Product '" + product.getName() + "' restocked. New quantity: " + (currentQuantity + quantity));
         } else {
-            System.out.println("Product '" + productName + "' does not exist in the inventory.");
+            System.out.println("Product '" + product.getName() + "' does not exist in the inventory.");
         }
     }
 
     /** Method to remove a product from the inventory **/
-    public void removeProduct(String productName) {
-        if (inventory.containsKey(productName)) {
-            inventory.remove(productName);
-            System.out.println("Product '" + productName + "' removed from the inventory.");
+    public void removeProduct(Product product) {
+        if (inventory.containsKey(product)) {
+            inventory.remove(product);
+            System.out.println("Product '" + product.getName() + "' removed from the inventory.");
         } else {
-            System.out.println("Product '" + productName + "' does not exist in the inventory.");
+            System.out.println("Product '" + product.getName() + "' does not exist in the inventory.");
         }
     }
 
     /** Method to update the quantity of a product in the inventory **/
-    public void updateProductQuantity(String productName, int newQuantity) {
-        if (inventory.containsKey(productName)) {
-            inventory.put(productName, newQuantity);
-            System.out.println("Quantity of product '" + productName + "' updated to: " + newQuantity);
+    public void updateProductQuantity(Product product, int newQuantity) {
+        if (inventory.containsKey(product)) {
+            inventory.put(product, newQuantity);
+            System.out.println("Quantity of product '" + product.getName() + "' updated to: " + newQuantity);
         } else {
-            System.out.println("Product '" + productName + "' does not exist in the inventory.");
+            System.out.println("Product '" + product.getName() + "' does not exist in the inventory.");
         }
     }
 
@@ -58,8 +58,12 @@ public class InventoryManager {
     /** Method to display the entire inventory **/
     public void displayInventory() {
         System.out.println("Current Inventory:");
-        for (Map.Entry<String, Integer> entry : inventory.entrySet()) {
+        for (Map.Entry<Product, Integer> entry : inventory.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue());
         }
+    }
+
+    public Map<Product, Integer> getInventory() {
+        return inventory;
     }
 }
