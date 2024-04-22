@@ -49,9 +49,9 @@ public class UI {
             Product p = entry.getKey();
             ItemBox box = new ItemBox(beginX,beginY,p);
             canvas.add(box.getBox());
+            System.out.println(box.getBox().getX());
             beginX += 20;
         }
-
     }
 
     private void userSignIn(){
