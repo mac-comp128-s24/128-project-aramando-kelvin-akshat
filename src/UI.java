@@ -70,6 +70,8 @@ public class UI {
             String username = usernameField.getText();
             System.out.println("User signed in: " + username);
             if (!username.isEmpty()) { // Assuming non-empty username means successful sign-in
+                canvas.remove(usernameField);  // Remove username field
+                canvas.remove(signInButton); 
                 transactionButton();  // Add transaction button after sign-in
             }
         });
