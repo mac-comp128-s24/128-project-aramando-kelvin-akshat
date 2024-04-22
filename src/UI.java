@@ -21,7 +21,7 @@ public class UI {
         canvas = new CanvasWindow("Candy Shop", CANVAS_WIDTH, CANVAS_HEIGHT);
         createShop();
         addShopItems();
-        transactionButton();
+        userSignIn();
         canvas.draw();
     }
 
@@ -60,28 +60,32 @@ public class UI {
 
     private void userSignIn(){
         TextField usernameField = new TextField();
-        canvas.add(usernameField, 100, 750); 
+        usernameField.setPosition(100, 750); // Ensure positioning is correct
+        usernameField.setScale(150, 20); // Set size to make sure it's visible
+        canvas.add(usernameField);
+
         Button signInButton = new Button("Sign In");
+        signInButton.setPosition(260, 750);
         signInButton.onClick(() -> {
             String username = usernameField.getText();
             System.out.println("User signed in: " + username);
-            
+            if (!username.isEmpty()) { // Assuming non-empty username means successful sign-in
+                transactionButton();  // Add transaction button after sign-in
+            }
         });
-        canvas.add(signInButton, 250, 750);
+        canvas.add(signInButton);
     }
-        
-    private void transactionButton(){
-        Button transactionBtn = new Button("Make Transaction");
-        transactionBtn.onClick(() -> {
-            // Assuming there is a method in VendingMachine to process transactions
-            // if(vendingMachine.processTransaction()){
-            //     System.out.println("Transaction successful!");
-            // } else {
-            //     System.out.println("Transaction failed. Please try again.");
-            // }
-        });
-        canvas.add(transactionBtn, 500, 750);
-    }
+        private void transactionButton(){
+            Button transactionBtn = new Button("Make Transaction");
+            transactionBtn.setPosition(400, 750);
+            transactionBtn.onClick(() -> {
+                // Implement transaction logic here
+                System.out.println("Transaction initiated");
+            });
+            canvas.add(transactionBtn);
+        }
+
+    
 
     public static void main(String[] args) {
         UI shop = new UI();
