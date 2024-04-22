@@ -43,14 +43,18 @@ public class UI {
 
     private void addShopItems(){
         Map<Product, Integer> inventory = vendingMachine.getInventory();
-        int beginX = 200;
-        int beginY = 200;
+        int beginX = 100;
+        int beginY = 100;
         for (Map.Entry<Product, Integer> entry : inventory.entrySet()) {
             Product p = entry.getKey();
             ItemBox box = new ItemBox(beginX,beginY,p);
             canvas.add(box.getBox());
             System.out.println(box.getBox().getX());
-            beginX += 20;
+            beginX += 300;
+            if (beginX + 300 > CANVAS_WIDTH){
+                beginX = 100;
+                beginY += 200;
+            }
         }
     }
 
@@ -65,7 +69,8 @@ public class UI {
         });
         canvas.add(signInButton, 250, 750);
     }
-        private void transactionButton(){
+        
+    private void transactionButton(){
         Button transactionBtn = new Button("Make Transaction");
         transactionBtn.onClick(() -> {
             // Assuming there is a method in VendingMachine to process transactions

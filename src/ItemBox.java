@@ -21,22 +21,23 @@ public class ItemBox {
     }
 
     public void assemble(){
-        Line topBorder = new Line(x,y,x + 30, y);
+        Line topBorder = new Line(x,y,x + 300, y);
         topBorder.setStrokeColor(BORDER_COLOR);
         box.add(topBorder);
-        Line leftBorder = new Line(x,y,x,y+30);
+        Line leftBorder = new Line(x,y,x,y+200);
         leftBorder.setStrokeColor(BORDER_COLOR);
         box.add(leftBorder);
-        Line bottomBorder = new Line(x,y+30,x+30,y+30);
+        Line bottomBorder = new Line(x,y+200,x+300,y+200);
         bottomBorder.setStrokeColor(BORDER_COLOR);
         box.add(bottomBorder);
-        Line rightBorder = new Line(x+30,y,x+30,y+30);
+        Line rightBorder = new Line(x+300,y,x+300,y+200);
         rightBorder.setStrokeColor(BORDER_COLOR);
-        GraphicsText name = new GraphicsText(p.getName(), x +5, y +5);
-        name.setFontSize(5);
+        box.add(rightBorder);
+        GraphicsText name = new GraphicsText(p.getName(), x +50, y +50);
+        name.setFontSize(20);
         box.add(name);
-        GraphicsText price = new GraphicsText(p.getPrice().toString(), x +5, y +10);
-        price.setFontSize(5);
+        GraphicsText price = new GraphicsText(p.getPrice().toString(), x +50, y +100);
+        price.setFontSize(20);
         box.add(price);
     }
 
