@@ -6,6 +6,7 @@ import edu.macalester.graphics.Point;
 import edu.macalester.graphics.ui.Button;
 import edu.macalester.graphics.Rectangle;
 import edu.macalester.graphics.Line;
+import edu.macalester.graphics.ui.TextField;
 
 public class UI {
     private VendingMachine vendingMachine;
@@ -54,11 +55,27 @@ public class UI {
     }
 
     private void userSignIn(){
-        
+        TextField usernameField = new TextField();
+        canvas.add(usernameField, 100, 750); 
+        Button signInButton = new Button("Sign In");
+        signInButton.onClick(() -> {
+            String username = usernameField.getText();
+            System.out.println("User signed in: " + username);
+            
+        });
+        canvas.add(signInButton, 250, 750);
     }
-
-    private void transactionButton(){
-
+        private void transactionButton(){
+        Button transactionBtn = new Button("Make Transaction");
+        transactionBtn.onClick(() -> {
+            // Assuming there is a method in VendingMachine to process transactions
+            // if(vendingMachine.processTransaction()){
+            //     System.out.println("Transaction successful!");
+            // } else {
+            //     System.out.println("Transaction failed. Please try again.");
+            // }
+        });
+        canvas.add(transactionBtn, 500, 750);
     }
 
     public static void main(String[] args) {
