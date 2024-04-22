@@ -42,17 +42,20 @@ public class UI {
 
     private void addShopItems(){
         Map<Product, Integer> inventory = vendingMachine.getInventory();
-        int beginX = 100;
-        int beginY = 100;
+        int beginX = 200;
+        int beginY = 200;
         for (Map.Entry<Product, Integer> entry : inventory.entrySet()) {
             Product p = entry.getKey();
             ItemBox box = new ItemBox(beginX,beginY,p);
             canvas.add(box.getBox());
             beginX += 20;
         }
+
     }
 
-    
+    private void userSignIn(){
+        
+    }
 
     private void transactionButton(){
 
