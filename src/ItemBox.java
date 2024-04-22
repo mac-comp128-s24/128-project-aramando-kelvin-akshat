@@ -17,6 +17,7 @@ public class ItemBox {
         this.y = y;
         this.p = p;
         this.box = new GraphicsGroup();
+        assemble();
     }
 
     public void assemble(){

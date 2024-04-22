@@ -13,7 +13,6 @@ public class VendingMachine {
         inventory.addProduct(new Product("Skittles", 1.99), 100);
         inventory.addProduct(new Product("Almond Joy", 1.99), 100);
         inventory.addProduct(new Product("Reeses Pieces", 2.99), 100);
-
     }
 
     public Map<Product, Integer> getInventory(){

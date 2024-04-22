@@ -4,8 +4,8 @@ public class Product {
     private Double price;
 
     public Product(String name, Double price){
-        name = this.name;
-        price = this.price;
+        this.name = name;
+        this.price = price;
     }
 
     public String getName() {
