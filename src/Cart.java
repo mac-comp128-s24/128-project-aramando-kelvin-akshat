@@ -32,11 +32,29 @@ public class Cart {
     //     return inventoryManager;
     // }
 
-    public void cartCost(){
+    public double cartCost(){
         double total = 0;
         for (Product item : items){
             total += item.getPrice();
         }
         System.out.println("Total cost: " + total);
+        return total;
     }
+
+    /* Added after the last push by Kyle
+     * Method to display the items in the cart
+     
+     */
+    public List<Product> getItems() {
+        return items;
+    }  
+
+    /*  
+     * Method to check if the cart is empty
+     */
+    public void isEmpty(){
+        if (items.isEmpty()){
+            System.out.println("Cart is empty.");
+        }
+    } 
 }
