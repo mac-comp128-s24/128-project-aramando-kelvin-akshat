@@ -17,6 +17,7 @@ public class User {
         return id;
     }
 
+ 
     public double getWallet() {
         return wallet;
     }

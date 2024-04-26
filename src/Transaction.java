@@ -8,6 +8,8 @@ public class Transaction {
         this.cart = cart;
         this.inventoryManager = inventoryManager;
     }
+    
+    
 
     public void processTransaction() {
         // Check if the user's cart is empty

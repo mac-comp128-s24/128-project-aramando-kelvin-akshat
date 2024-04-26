@@ -1,6 +1,7 @@
 import java.util.*;
 import java.awt.*;
 import edu.macalester.graphics.CanvasWindow;
+import edu.macalester.graphics.FontStyle;
 import edu.macalester.graphics.GraphicsText;
 import edu.macalester.graphics.Point;
 import edu.macalester.graphics.ui.Button;
@@ -14,6 +15,7 @@ public class UI {
     public static final int CANVAS_WIDTH = 1200;
     public static final int CANVAS_HEIGHT = 800;
     private Color BORDER_COLOR = new Color(32,150,10);
+    
 
 
     public UI(){
@@ -22,8 +24,26 @@ public class UI {
         createShop();
         addShopItems();
         userSignIn();
+        setupWalletDisplay(); 
         canvas.draw();
+     
     }
+    private void setupWalletDisplay() {
+        GraphicsText walletDisplay = new GraphicsText();
+        walletDisplay.setFont(FontStyle.BOLD, 30);
+        if (vendingMachine.getUser() != null) {
+            walletDisplay.setText("Wallet: $" + formatAmount(vendingMachine.getUser().getWallet()));
+        } else {
+            walletDisplay.setText("Wallet: $0.00"); // Default display when no user is logged in
+        }
+    
+        walletDisplay.setPosition(980, 50);  // Adjusted position on the canvas
+        canvas.add(walletDisplay);
+    }
+    private String formatAmount(double amount) {
+        return String.format("%.2f", amount); // Formatting to two decimal places
+    }
+
 
     private void createShop(){
         Rectangle topBorder = new Rectangle(0, 0,CANVAS_WIDTH , 50);
@@ -83,14 +103,16 @@ public class UI {
             transactionBtn.onClick(() -> {
                 // Implement transaction logic here
                 System.out.println("Transaction initiated");
+
             });
             canvas.add(transactionBtn);
         }
-
+    
     
 
     public static void main(String[] args) {
         UI shop = new UI();
+       
     }
 
 
