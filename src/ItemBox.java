@@ -1,10 +1,13 @@
 import edu.macalester.graphics.Line;
+import edu.macalester.graphics.ui.Button;
+
 import java.util.*;
 import java.awt.*;
 import edu.macalester.graphics.GraphicsGroup;
 import edu.macalester.graphics.GraphicsText;
 
 public class ItemBox {
+    private Button addButton;
     private int x;
     private int y;
     private Product p;
@@ -12,15 +15,16 @@ public class ItemBox {
     private Color BORDER_COLOR = new Color(32,150,10);
 
 
-    public ItemBox(int x, int y, Product p){
+    public ItemBox(int x, int y, Product p,UI ui){
         this.x = x;
         this.y = y;
         this.p = p;
         this.box = new GraphicsGroup();
-        assemble();
+        assemble(ui);
+        
     }
 
-    public void assemble(){
+    public void assemble(UI ui){
         Line topBorder = new Line(x,y,x + 300, y);
         topBorder.setStrokeColor(BORDER_COLOR);
         box.add(topBorder);
@@ -39,6 +43,10 @@ public class ItemBox {
         GraphicsText price = new GraphicsText(p.getPrice().toString(), x +50, y +100);
         price.setFontSize(20);
         box.add(price);
+        addButton = new Button("Add to Cart");
+        addButton.setPosition(x + 50, y + 150);
+        addButton.onClick(() -> ui.addItemToCart(p));
+        box.add(addButton);
     }
 
     public GraphicsGroup getBox() {

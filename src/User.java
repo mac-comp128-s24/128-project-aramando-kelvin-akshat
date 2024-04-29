@@ -1,12 +1,14 @@
 public class User {
     private int id;
-    private double wallet;
+    private double wallet=1000.00;
     private Cart cart;
+    private VendingMachine vendingMachine; 
 
     public User(int id, double wallet, Cart cart){
         this.id = id;
         this.wallet = wallet;
         this.cart = cart;
+        this.vendingMachine = vendingMachine; 
     }
 
     public Cart getCart() {
@@ -34,5 +36,8 @@ public class User {
         else{
             return false;
         }
+    }
+    public VendingMachine getVendingMachine() {  
+        return vendingMachine;
     }
 }
