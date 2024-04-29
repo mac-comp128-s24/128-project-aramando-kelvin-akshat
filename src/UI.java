@@ -1,3 +1,5 @@
+
+
 import java.util.*;
 import java.awt.*;
 import edu.macalester.graphics.CanvasWindow;
@@ -10,6 +12,8 @@ import edu.macalester.graphics.Line;
 import edu.macalester.graphics.ui.TextField;
 
 public class UI {
+    private User user;  
+    private Cart cart;  
     private VendingMachine vendingMachine;
     private CanvasWindow canvas;
     public static final int CANVAS_WIDTH = 1200;
@@ -20,30 +24,21 @@ public class UI {
 
     public UI(){
         vendingMachine = new VendingMachine();
+        this.user=user;
+        this.cart=cart;
         canvas = new CanvasWindow("Candy Shop", CANVAS_WIDTH, CANVAS_HEIGHT);
         createShop();
         addShopItems();
         userSignIn();
-        setupWalletDisplay(); 
         canvas.draw();
-     
+        
     }
-    private void setupWalletDisplay() {
-        GraphicsText walletDisplay = new GraphicsText();
-        walletDisplay.setFont(FontStyle.BOLD, 30);
-        if (vendingMachine.getUser() != null) {
-            walletDisplay.setText("Wallet: $" + formatAmount(vendingMachine.getUser().getWallet()));
-        } else {
-            walletDisplay.setText("Wallet: $0.00"); // Default display when no user is logged in
-        }
-    
-        walletDisplay.setPosition(980, 50);  // Adjusted position on the canvas
-        canvas.add(walletDisplay);
-    }
+
     private String formatAmount(double amount) {
         return String.format("%.2f", amount); // Formatting to two decimal places
     }
 
+    
 
     private void createShop(){
         Rectangle topBorder = new Rectangle(0, 0,CANVAS_WIDTH , 50);
@@ -67,7 +62,7 @@ public class UI {
         int beginY = 100;
         for (Map.Entry<Product, Integer> entry : inventory.entrySet()) {
             Product p = entry.getKey();
-            ItemBox box = new ItemBox(beginX,beginY,p);
+            ItemBox box = new ItemBox(beginX,beginY,p,this);
             canvas.add(box.getBox());
             System.out.println(box.getBox().getX());
             beginX += 300;
@@ -77,11 +72,15 @@ public class UI {
             }
         }
     }
-
+    public void addItemToCart(Product p) {
+        cart.addToCart(p);
+       
+    }
+     
     private void userSignIn(){
         TextField usernameField = new TextField();
         usernameField.setPosition(100, 750); // Ensure positioning is correct
-        usernameField.setScale(150, 20); // Set size to make sure it's visible
+        usernameField.setScale(150, 30); // Set size to make sure it's visible
         canvas.add(usernameField);
 
         Button signInButton = new Button("Sign In");
@@ -90,12 +89,26 @@ public class UI {
             String username = usernameField.getText();
             System.out.println("User signed in: " + username);
             if (!username.isEmpty()) { // Assuming non-empty username means successful sign-in
+                user = new User(username.hashCode(), 1000.00, new Cart());  // Create a new User instance
+                updateWalletDisplay();  
                 canvas.remove(usernameField);  // Remove username field
                 canvas.remove(signInButton); 
                 transactionButton();  // Add transaction button after sign-in
             }
         });
         canvas.add(signInButton);
+    }
+    private void updateWalletDisplay() {
+        GraphicsText walletDisplay = new GraphicsText();
+        walletDisplay.setFont(FontStyle.BOLD, 20);
+        if (user != null) {
+            walletDisplay.setText("Wallet: $" + formatAmount(user.getWallet()) + " | Items in Cart: " + user.getCart().getItems().size());
+        } else {
+            walletDisplay.setText("Wallet: $0.00");
+        }
+    
+        walletDisplay.setPosition(820, 50);  // Adjusted position on the canvas
+        canvas.add(walletDisplay);
     }
         private void transactionButton(){
             Button transactionBtn = new Button("Make Transaction");
@@ -111,7 +124,10 @@ public class UI {
     
 
     public static void main(String[] args) {
-        UI shop = new UI();
+        VendingMachine vendingMachine = new VendingMachine();
+        Cart cart = new Cart(); 
+        User user = new User(1, 1000.00, cart);
+        new UI();
        
     }
 

@@ -8,9 +8,10 @@ public class Product {
     private Image image;
     
 
-    public Product(String name, Double price){
+    public Product(String name, Double price, Image image){
         this.name = name;
         this.price = price;
+        this.image = image;
     }
 
     public String getName() {
@@ -27,5 +28,13 @@ public class Product {
     
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
     }
 }
