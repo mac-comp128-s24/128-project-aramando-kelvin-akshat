@@ -9,27 +9,46 @@ public class User {
         this.id = id;
         this.wallet = wallet;
         this.cart = cart;
-        this.vendingMachine = vendingMachine; 
         this.isLoggedIn=isLoggedIn;
     }
 
+    /**
+     * getter for cart.
+     * @return
+     */
     public Cart getCart() {
         return cart;
     }
 
+    /**
+     * getter for userId
+     * @return
+     */
     public int getId() {
         return id;
     }
 
- 
+    /**
+     * getter for wallet.
+     * @return
+     */
     public double getWallet() {
         return wallet;
     }
 
+    /**
+     * Updates wallet with amount of funds user wants to add.
+     * @param funds
+     */
     public void addFunds(double funds){
         wallet += funds;
     }
 
+    /**
+     * Removes funds if there are enough to be removed.
+     * @param funds
+     * @return
+     */
     public boolean removeFunds(double funds){
         if (getWallet() - funds >= 0){
             wallet -= funds;
@@ -39,21 +58,38 @@ public class User {
             return false;
         }
     }
+    /**
+     * Getter for the vending machine.
+     * @return
+     */
     public VendingMachine getVendingMachine() {  
         return vendingMachine;
     }
    
+    /**
+     * User is default not logged in.
+     */
     public User() {
         this.isLoggedIn = false;
     }
 
+    /**
+     * updates isloggedin once signed in.
+     */
     public void signIn() {
         this.isLoggedIn = true;
     }
 
+    /**
+     * getter for isLoggedIn.
+     * @return
+     */
     public boolean isLoggedIn() {
         return isLoggedIn;
     }
+    /**
+     * Signs out the user.
+     */
     public void signOut() {
         // Reset user details and logout
         this.isLoggedIn = false;

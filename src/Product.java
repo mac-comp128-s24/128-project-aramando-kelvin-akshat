@@ -9,6 +9,13 @@ public class Product {
     private Double prob;
     
 
+    /**
+     * Product class. There are getters and setters associated with each of these instance variables.
+     * @param name
+     * @param price
+     * @param image
+     * @param prob
+     */
     public Product(String name, Double price, Image image, Double prob){
         this.name = name;
         this.price = price;

@@ -1,7 +1,5 @@
 import edu.macalester.graphics.Line;
 import edu.macalester.graphics.ui.Button;
-
-import java.util.*;
 import java.awt.*;
 import edu.macalester.graphics.GraphicsGroup;
 import edu.macalester.graphics.GraphicsText;
@@ -14,7 +12,13 @@ public class ItemBox {
     private GraphicsGroup box; 
     private Color BORDER_COLOR = new Color(32,150,10);
 
-
+    /**
+     * Creates one square of the shopping grid. Helper class.
+     * @param x
+     * @param y
+     * @param p
+     * @param ui
+     */
     public ItemBox(int x, int y, Product p,UI ui){
         this.x = x;
         this.y = y;
@@ -24,6 +28,10 @@ public class ItemBox {
         
     }
 
+    /**
+     * Assembles the square. Includes price, name, and a button to buy it.
+     * @param ui
+     */
     public void assemble(UI ui){
         Line topBorder = new Line(x,y,x + 300, y);
         topBorder.setStrokeColor(BORDER_COLOR);
@@ -52,15 +60,11 @@ public class ItemBox {
         });
     }
 
+    /**
+     * getter for the box.
+     * @return
+     */
     public GraphicsGroup getBox() {
         return box;
     }
-
-    // public void handleButton(Button button, User u){
-    //     button.onClick(() -> u.getCart().addToCart(p));
-    // }
-
-    // public Button getAddButton(){
-    //     return addButton;
-    // }
 }

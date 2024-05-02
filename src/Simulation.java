@@ -1,13 +1,10 @@
 import java.util.*;
 import java.awt.*;
 import edu.macalester.graphics.CanvasWindow;
-import edu.macalester.graphics.FontStyle;
 import edu.macalester.graphics.GraphicsText;
-import edu.macalester.graphics.Point;
 import edu.macalester.graphics.ui.Button;
 import edu.macalester.graphics.Rectangle;
 import edu.macalester.graphics.Line;
-import edu.macalester.graphics.ui.TextField;
 import java.lang.Math;
 
 
@@ -59,7 +56,6 @@ public class Simulation {
         colors.add(new Color(101,116,205));
         colors.add(new Color(149,97,226));
         colors.add(new Color(246,109,155));
-
         int index = 0;
         for (Map.Entry<Product, Integer> entry : inventory.entrySet()) {
             Product p = entry.getKey();
@@ -98,12 +94,14 @@ public class Simulation {
         double yDown = 760/100;
         sim.onClick(() -> {
             double x1 = 20;
+            double x = 0;
             while (x1 < 1180){
                 for (Map.Entry<Product, Integer> entry : inventory.entrySet()) {
                     Product p = entry.getKey();
                     double randNum = Math.random();
                     Double pos = getPositions().get(p);
                     if (pos > 780 - yDown){
+                        x = x1;
                         break;
                     }
                     if (randNum <= p.getProb()){
@@ -117,8 +115,6 @@ public class Simulation {
                         line.setStrokeColor(colorAssign.get(p));
                         canvas.add(line);
                     }
-                    
-                    
                     canvas.draw();
                 }
                 x1 = x1 + 3;

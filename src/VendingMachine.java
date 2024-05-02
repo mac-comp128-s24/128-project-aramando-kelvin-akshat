@@ -1,12 +1,11 @@
 import java.util.*;
 
-import edu.macalester.graphics.Image;
-
 public class VendingMachine {
     private InventoryManager inventory;
-    private User currentUser;
 
-
+    /**
+     * creates the inventory.
+     */
     public VendingMachine(){
         this.inventory = new InventoryManager();
         inventory.addProduct(new Product("Kit Kat", 1.99, null, .5), 100);
@@ -20,14 +19,11 @@ public class VendingMachine {
         inventory.addProduct(new Product("Milk Duds", 2.99, null, .3), 100);
     }
 
+    /**
+     * getter for inventory
+     * @return
+     */
     public Map<Product, Integer> getInventory(){
         return inventory.getInventory();
     }
-    public User getUser() {
-        return currentUser;
-    }
-    public void setUser(User user) {
-        this.currentUser = user;
-    }
-
 }

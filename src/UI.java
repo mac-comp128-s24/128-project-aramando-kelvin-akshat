@@ -1,15 +1,12 @@
 
-
 import java.util.*;
 import java.util.List;
 import java.awt.*;
 import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.FontStyle;
 import edu.macalester.graphics.GraphicsText;
-import edu.macalester.graphics.Point;
 import edu.macalester.graphics.ui.Button;
 import edu.macalester.graphics.Rectangle;
-import edu.macalester.graphics.Line;
 import edu.macalester.graphics.ui.TextField;
 
 public class UI {
@@ -23,33 +20,36 @@ public class UI {
     private GraphicsText walletDisplay;
     private InventoryManager im = new InventoryManager();
     private Button signOutButton;
-     private Map<String, List<Product>> userPurchases;
+    private Map<String, List<Product>> userPurchases;
     
-
-
+    /**
+     * A shopping app, where users can purchase items. The app also has a simulation of different items, showing how fast they get bought. 
+     */
     public UI(){
         userPurchases = new HashMap<>();
         walletDisplay = new GraphicsText();
         vendingMachine = new VendingMachine();
-        this.user= user;
-        this.cart= cart;
         canvas = new CanvasWindow("Candy Shop", CANVAS_WIDTH, CANVAS_HEIGHT);
         createShop();
         addShopItems();
         userSignIn();  
         canvas.draw();  
         initializeUI();
-
-       
-   
+        showSim();
     }
 
+    /**
+     * formatting helper class. 
+     * @param amount
+     * @return
+     */
     private String formatAmount(double amount) {
         return String.format("%.2f", amount); // Formatting to two decimal places
     }
 
-    
-
+    /**
+     * Creates the shop border.
+     */
     private void createShop(){
         Rectangle topBorder = new Rectangle(0, 0,CANVAS_WIDTH , 50);
         topBorder.setFillColor(BORDER_COLOR);
@@ -66,6 +66,9 @@ public class UI {
 
     }
 
+    /**
+     * Creates the grid like display for the shop. Adds the items.
+     */
     private void addShopItems(){
         Map<Product, Integer> inventory = vendingMachine.getInventory();
         int beginX = 100;
@@ -82,10 +85,18 @@ public class UI {
             }
         }
     }
+
+    /**
+     * Add the product to the users cart.
+     * @param p
+     */
     public void addItemToCart(Product p) {
         cart.addToCart(p);
     }
     
+    /**
+     * Handles UI updates and user sign in when this happens.
+     */
     private void userSignIn(){
         TextField usernameField = new TextField();
         usernameField.setPosition(100, 750); 
@@ -109,6 +120,10 @@ public class UI {
         });
         canvas.add(signInButton);
     }
+
+    /**
+     * Updates the UI if the user is logged in.
+     */
     private void updateUIForUser() {
         if (user != null && user.isLoggedIn()) {
             // Only show the sign out button if the user is logged in
@@ -120,6 +135,9 @@ public class UI {
         }
     }
 
+    /**
+     * Signs out the user.
+     */
     private void signOutUser() {
         userPurchases.get(getUser()).addAll(cart.getItems());
         if (user != null) {
@@ -130,8 +148,6 @@ public class UI {
         }
     }
 
-    
-
     // Initialization or re-initialization of the UI
     private void initializeUI() {
         signOutButton = new Button("Sign Out");
@@ -139,19 +155,23 @@ public class UI {
         canvas.add(signOutButton,10,10);  
     }
 
+    /**
+     * Updates the wallet display in the top left, showing the amount of money and the amount in the cart. 
+     */
     public void updateWalletDisplay() {
         walletDisplay.setFont(FontStyle.BOLD, 20);
         if (user != null) {
             walletDisplay.setText("Wallet: $" + formatAmount(user.getWallet()) + " | Items in Cart: " + user.getCart().getItems().size());
-            System.out.println("Updated Cart");
-            System.out.println(user.getCart().getItems().size());
         } else {
             walletDisplay.setText("Wallet: $0.00");
         }
-    
         walletDisplay.setPosition(820, 50);  // Adjusted position on the canvas
         canvas.add(walletDisplay);
     }
+
+    /**
+     * Button that initiates a transaction.
+     */
     private void transactionButton(){
         Button transactionBtn = new Button("Make Transaction");
         transactionBtn.setPosition(400, 750);
@@ -160,22 +180,22 @@ public class UI {
             transaction.processTransaction();
             updateWalletDisplay();
             System.out.println("Transaction initiated");
-
         });
         canvas.add(transactionBtn);
     }
 
+    /**
+     * Button and Textfields that ensures the user can add funds, and updates the wallet when done.
+     */
     private void handleAddFunds(){
         TextField addFunds = new TextField();
         addFunds.setPosition(550, 750); // Ensure positioning is correct
         addFunds.setScale(150, 30); // Set size to make sure it's visible
         canvas.add(addFunds);
-
         Button submitFunds = new Button("Add Funds");
         submitFunds.setPosition(650, 750);
         submitFunds.onClick(() -> {
             String num = addFunds.getText();
-            // System.out.println("User signed in: " + username);
             if (!num.isEmpty()) { 
                 user.addFunds(Double.parseDouble(num));
                 addFunds.setText("");
@@ -185,8 +205,24 @@ public class UI {
         canvas.add(submitFunds);
     }
     
-  public User getUser() {
+    /**
+     * Getter for user
+     * @return the user
+     */
+    public User getUser() {
         return user;
+    }
+
+    /*
+     * Shows the simulation window when the button is clicked.
+     */
+    private void showSim(){
+        Button simButton = new Button("Simulate");
+        canvas.add(simButton);
+        simButton.setPosition(1100, 770);
+        simButton.onClick(() -> {
+            new Simulation(vendingMachine);
+        });
     }
 
     public static void main(String[] args) {
