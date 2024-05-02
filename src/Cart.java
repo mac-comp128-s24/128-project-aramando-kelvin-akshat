@@ -9,9 +9,9 @@ public class Cart {
         this.items = new ArrayList<Product>();
     }
 
-    
     public void addToCart(Product item){
         items.add(item);
+        System.out.println("item added: " + item.getName());
     }
 
     public void removeFromCart(Product item){

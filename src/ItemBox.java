@@ -45,11 +45,22 @@ public class ItemBox {
         box.add(price);
         addButton = new Button("Add to Cart");
         addButton.setPosition(x + 50, y + 150);
-        addButton.onClick(() -> ui.addItemToCart(p));
         box.add(addButton);
+        addButton.onClick(() -> {
+            ui.getUser().getCart().addToCart(p);
+            ui.updateWalletDisplay();
+        });
     }
 
     public GraphicsGroup getBox() {
         return box;
     }
+
+    // public void handleButton(Button button, User u){
+    //     button.onClick(() -> u.getCart().addToCart(p));
+    // }
+
+    // public Button getAddButton(){
+    //     return addButton;
+    // }
 }

@@ -19,10 +19,13 @@ public class UI {
     public static final int CANVAS_WIDTH = 1200;
     public static final int CANVAS_HEIGHT = 800;
     private Color BORDER_COLOR = new Color(32,150,10);
+    private GraphicsText walletDisplay;
+    private InventoryManager im = new InventoryManager();
     
 
 
     public UI(){
+        walletDisplay = new GraphicsText();
         vendingMachine = new VendingMachine();
         this.user=user;
         this.cart=cart;
@@ -31,6 +34,7 @@ public class UI {
         addShopItems();
         userSignIn();
         canvas.draw();
+        handleAddFunds();
         
     }
 
@@ -74,9 +78,8 @@ public class UI {
     }
     public void addItemToCart(Product p) {
         cart.addToCart(p);
-       
     }
-     
+    
     private void userSignIn(){
         TextField usernameField = new TextField();
         usernameField.setPosition(100, 750); // Ensure positioning is correct
@@ -89,7 +92,7 @@ public class UI {
             String username = usernameField.getText();
             System.out.println("User signed in: " + username);
             if (!username.isEmpty()) { // Assuming non-empty username means successful sign-in
-                user = new User(username.hashCode(), 1000.00, new Cart());  // Create a new User instance
+                user = new User(username.hashCode(), 100.00, new Cart());  // Create a new User instance
                 updateWalletDisplay();  
                 canvas.remove(usernameField);  // Remove username field
                 canvas.remove(signInButton); 
@@ -98,11 +101,13 @@ public class UI {
         });
         canvas.add(signInButton);
     }
-    private void updateWalletDisplay() {
-        GraphicsText walletDisplay = new GraphicsText();
+
+    public void updateWalletDisplay() {
         walletDisplay.setFont(FontStyle.BOLD, 20);
         if (user != null) {
             walletDisplay.setText("Wallet: $" + formatAmount(user.getWallet()) + " | Items in Cart: " + user.getCart().getItems().size());
+            System.out.println("Updated Cart");
+            System.out.println(user.getCart().getItems().size());
         } else {
             walletDisplay.setText("Wallet: $0.00");
         }
@@ -110,23 +115,47 @@ public class UI {
         walletDisplay.setPosition(820, 50);  // Adjusted position on the canvas
         canvas.add(walletDisplay);
     }
-        private void transactionButton(){
-            Button transactionBtn = new Button("Make Transaction");
-            transactionBtn.setPosition(400, 750);
-            transactionBtn.onClick(() -> {
-                // Implement transaction logic here
-                System.out.println("Transaction initiated");
+    private void transactionButton(){
+        Button transactionBtn = new Button("Make Transaction");
+        transactionBtn.setPosition(400, 750);
+        transactionBtn.onClick(() -> {
+            Transaction transaction = new Transaction(user, user.getCart(), im);
+            transaction.processTransaction();
+            updateWalletDisplay();
+            System.out.println("Transaction initiated");
 
-            });
-            canvas.add(transactionBtn);
-        }
+        });
+        canvas.add(transactionBtn);
+    }
+
+    private void handleAddFunds(){
+        TextField addFunds = new TextField();
+        addFunds.setPosition(550, 750); // Ensure positioning is correct
+        addFunds.setScale(150, 30); // Set size to make sure it's visible
+        canvas.add(addFunds);
+
+        Button submitFunds = new Button("Add Funds");
+        submitFunds.setPosition(650, 750);
+        submitFunds.onClick(() -> {
+            String num = addFunds.getText();
+            // System.out.println("User signed in: " + username);
+            if (!num.isEmpty()) { // Assuming non-empty username means successful sign-in
+                user.addFunds(Double.parseDouble(num));
+                addFunds.setText("");
+                updateWalletDisplay();
+            }
+        });
+        canvas.add(submitFunds);
+    }
     
-    
+    public User getUser() {
+        return user;
+    }
 
     public static void main(String[] args) {
         VendingMachine vendingMachine = new VendingMachine();
         Cart cart = new Cart(); 
-        User user = new User(1, 1000.00, cart);
+        // User user = new User(1, 100.00, cart);
         new UI();
        
     }
