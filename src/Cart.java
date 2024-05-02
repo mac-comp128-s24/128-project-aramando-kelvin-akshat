@@ -25,13 +25,12 @@ public class Cart {
             System.out.println("Item not in cart.");
         }
     }
+    public void clearCart() {
+        items.clear();  // Clear all items from the cart
+        System.out.println("All items have been removed from the cart.");
+    }
 
-    // private InventoryManager getInventoryManager() {
-    //     if (inventoryManager == null) {
-    //         inventoryManager = new InventoryManager(); // Initialize it when needed
-    //     }
-    //     return inventoryManager;
-    // }
+
 
     public double cartCost(){
         double total = 0;

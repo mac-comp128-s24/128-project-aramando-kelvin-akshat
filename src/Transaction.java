@@ -29,5 +29,10 @@ public class Transaction {
         // Clear the cart
         cart.getItems().clear();
         System.out.println("Transaction completed successfully.");
+        
+    }
+    public void cancelTransaction() {
+        cart.clearCart();  // Assume this method clears all items in the cart
+        System.out.println("Transaction has been cancelled.");
     }
 }
