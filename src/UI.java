@@ -33,9 +33,7 @@ public class UI {
         createShop();
         addShopItems();
         userSignIn();
-        canvas.draw();
-        handleAddFunds();
-        
+        canvas.draw();        
     }
 
     private String formatAmount(double amount) {
@@ -97,6 +95,7 @@ public class UI {
                 canvas.remove(usernameField);  // Remove username field
                 canvas.remove(signInButton); 
                 transactionButton();  // Add transaction button after sign-in
+                handleAddFunds();
             }
         });
         canvas.add(signInButton);
@@ -153,8 +152,8 @@ public class UI {
     }
 
     public static void main(String[] args) {
-        VendingMachine vendingMachine = new VendingMachine();
-        Cart cart = new Cart(); 
+        // VendingMachine vendingMachine = new VendingMachine();
+        // Cart cart = new Cart(); 
         // User user = new User(1, 100.00, cart);
         new UI();
        
