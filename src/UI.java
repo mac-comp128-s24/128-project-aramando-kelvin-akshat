@@ -1,6 +1,7 @@
 
 
 import java.util.*;
+import java.util.List;
 import java.awt.*;
 import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.FontStyle;
@@ -21,19 +22,26 @@ public class UI {
     private Color BORDER_COLOR = new Color(32,150,10);
     private GraphicsText walletDisplay;
     private InventoryManager im = new InventoryManager();
+    private Button signOutButton;
+     private Map<String, List<Product>> userPurchases;
     
 
 
     public UI(){
+        userPurchases = new HashMap<>();
         walletDisplay = new GraphicsText();
         vendingMachine = new VendingMachine();
-        this.user=user;
-        this.cart=cart;
+        this.user= user;
+        this.cart= cart;
         canvas = new CanvasWindow("Candy Shop", CANVAS_WIDTH, CANVAS_HEIGHT);
         createShop();
         addShopItems();
-        userSignIn();
-        canvas.draw();        
+        userSignIn();  
+        canvas.draw();  
+        initializeUI();
+
+       
+   
     }
 
     private String formatAmount(double amount) {
@@ -80,8 +88,8 @@ public class UI {
     
     private void userSignIn(){
         TextField usernameField = new TextField();
-        usernameField.setPosition(100, 750); // Ensure positioning is correct
-        usernameField.setScale(150, 30); // Set size to make sure it's visible
+        usernameField.setPosition(100, 750); 
+        usernameField.setScale(150, 30); 
         canvas.add(usernameField);
 
         Button signInButton = new Button("Sign In");
@@ -90,15 +98,45 @@ public class UI {
             String username = usernameField.getText();
             System.out.println("User signed in: " + username);
             if (!username.isEmpty()) { // Assuming non-empty username means successful sign-in
-                user = new User(username.hashCode(), 100.00, new Cart());  // Create a new User instance
+                user = new User(username.hashCode(), 100.00, new Cart(),true);  // Create a new User instance
                 updateWalletDisplay();  
                 canvas.remove(usernameField);  // Remove username field
                 canvas.remove(signInButton); 
                 transactionButton();  // Add transaction button after sign-in
                 handleAddFunds();
+                userPurchases.put(username, new ArrayList<>());
             }
         });
         canvas.add(signInButton);
+    }
+    private void updateUIForUser() {
+        if (user != null && user.isLoggedIn()) {
+            // Only show the sign out button if the user is logged in
+            signOutButton = new Button("Sign Out");
+            signOutButton.onClick(() -> signOutUser());
+            canvas.add(signOutButton, 10, 10);
+        } else {
+            canvas.remove(signOutButton); // Remove the sign out button if the user is not logged in
+        }
+    }
+
+    private void signOutUser() {
+        userPurchases.get(getUser()).addAll(cart.getItems());
+        if (user != null) {
+            user.signOut(); // Assuming User class handles resetting the wallet and clearing the cart
+            canvas.remove(signOutButton); // Optionally remove the button immediately on sign out
+            System.out.println("User signed out. Wallet and cart are reset.");
+            updateUIForUser(); // Refresh UI elements to reflect the logged-out state
+        }
+    }
+
+    
+
+    // Initialization or re-initialization of the UI
+    private void initializeUI() {
+        signOutButton = new Button("Sign Out");
+        signOutButton.onClick(() -> signOutUser());
+        canvas.add(signOutButton,10,10);  
     }
 
     public void updateWalletDisplay() {
@@ -138,7 +176,7 @@ public class UI {
         submitFunds.onClick(() -> {
             String num = addFunds.getText();
             // System.out.println("User signed in: " + username);
-            if (!num.isEmpty()) { // Assuming non-empty username means successful sign-in
+            if (!num.isEmpty()) { 
                 user.addFunds(Double.parseDouble(num));
                 addFunds.setText("");
                 updateWalletDisplay();
@@ -147,7 +185,7 @@ public class UI {
         canvas.add(submitFunds);
     }
     
-    public User getUser() {
+  public User getUser() {
         return user;
     }
 
